@@ -12,8 +12,9 @@ class GetFeeUsecase {
             if(utils.IsInvalid(customer_address)) {
                 return new Error(200, 'Missing customer address');
             }
-            const fee = (Math.random() * 10).toFixed(2);
-            return new Result(200, 'success', {fee})
+            const feeUSD = (Math.random() * 10).toFixed(2);
+            const feeEUR = (feeUSD * 0.9).toFixed(2);
+            return new Result(200, 'success', {feeUSD, feeEUR})
         } catch(err) {
             Log.writeLog(err.message)
             return new Error(500, err.message);

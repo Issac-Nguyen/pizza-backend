@@ -14,18 +14,18 @@ class NewOrderUseCase {
     }
 
     async execute(req, res) {
-        const {customer_name, customer_phone, customer_address, schedule, email, order_items, total, fee, created_at} = req.body;
+        const {customer_name, customer_phone, customer_address, schedule, email, order_items, totalUSD, totalEUR, feeUSD, feeEUR, created_at} = req.body;
         if(utils.IsInvalid(customer_name, 50) || utils.IsInvalid(customer_phone, 50) || utils.IsInvalid(customer_address, 50)) {
             return new Error(200, 'customer name or customer phone or customer address invalid');
         }
         const idOrder = uuid();
-            const newOrder = new Order(idOrder, customer_name, customer_phone, customer_address, schedule == true ? 'immediately' : schedule, email, total, fee, created_at)
+            const newOrder = new Order(idOrder, customer_name, customer_phone, customer_address, schedule == true ? 'immediately' : schedule, email, totalUSD, totalEUR, feeUSD, feeEUR, created_at)
             let connection;
             try {
                 connection = await this.db.beginTransaction();
                 const orders = await this.repo.create(newOrder, connection);
                 for(let item of order_items) {
-                    const itemModel = new OrderItem(idOrder, item.pizza_id, item.url, item.name, item.price, item.currency);
+                    const itemModel = new OrderItem(idOrder, item.pizza_id, item.url, item.name, item.price, item.priceEUR);
                     const orderItems = await this.orderItemRepo.create(itemModel, connection);
                 }
                 

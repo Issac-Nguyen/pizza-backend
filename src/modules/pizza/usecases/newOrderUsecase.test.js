@@ -16,7 +16,7 @@ describe('newOrderUsecase', () => {
             const createOrderStub = sinon.stub(repo, 'create').resolves(orderItem);
             const createOrderItemStub = sinon.stub(orderItemRepo, 'create').resolves(orderItemItem);
             const newOrderUsecase = new NewOrderUsecase(repo, orderItemRepo, db);
-            const req = {body: {order_items: [{id:'1'}]}};
+            const req = {body: {order_items: [{id:'1'}], customer_name: '123', customer_address: 'add', customer_phone: '123'}};
             const result = await newOrderUsecase.execute(req);
             expect(beginTxStub.calledOnce).to.be.true;
             expect(commitTxStub.calledOnce).to.be.true;
@@ -36,12 +36,12 @@ describe('newOrderUsecase', () => {
             const createOrderStub = sinon.stub(repo, 'create').resolves(orderItem);
             const createOrderItemStub = sinon.stub(orderItemRepo, 'create').resolves(orderItemItem);
             const newOrderUsecase = new NewOrderUsecase(repo, orderItemRepo, db);
-            const req = {body: {order_items: []}};
+            const req = {body: {order_items: [{id:'1'}], customer_name: '123', customer_address: 'add', customer_phone: '123'}};
             const result = await newOrderUsecase.execute(req);
             expect(beginTxStub.calledOnce).to.be.true;
             expect(commitTxStub.calledOnce).to.be.true;
             expect(createOrderStub.calledOnce).to.be.true;
-            expect(createOrderItemStub.callCount).to.equal(0);
+            expect(createOrderItemStub.callCount).to.equal(1);
             expect(result.status).to.equal(200);
             expect(result.msg).to.equal('success');
         })
@@ -56,7 +56,7 @@ describe('newOrderUsecase', () => {
             const createOrderStub = sinon.stub(repo, 'create').resolves(orderItem);
             const createOrderItemStub = sinon.stub(orderItemRepo, 'create').resolves(orderItemItem);
             const newOrderUsecase = new NewOrderUsecase(repo, orderItemRepo, db);
-            const req = {body: {order_items: []}};
+            const req = {body: {order_items: [{id:'1'}], customer_name: '123', customer_address: 'add', customer_phone: '123'}};
             const result = await newOrderUsecase.execute(req);
             expect(beginTxStub.calledOnce).to.be.true;
             expect(commitTxStub.callCount).to.equal(0);
@@ -77,7 +77,7 @@ describe('newOrderUsecase', () => {
             const createOrderStub = sinon.stub(repo, 'create').rejects();
             const createOrderItemStub = sinon.stub(orderItemRepo, 'create').resolves(orderItemItem);
             const newOrderUsecase = new NewOrderUsecase(repo, orderItemRepo, db);
-            const req = {body: {order_items: []}};
+            const req = {body: {order_items: [{id:'1'}], customer_name: '123', customer_address: 'add', customer_phone: '123'}};
             const result = await newOrderUsecase.execute(req);
             expect(beginTxStub.calledOnce).to.be.true;
             expect(commitTxStub.callCount).to.equal(0);
@@ -99,7 +99,7 @@ describe('newOrderUsecase', () => {
             const createOrderStub = sinon.stub(repo, 'create').resolves(orderItem);
             const createOrderItemStub = sinon.stub(orderItemRepo, 'create').rejects();
             const newOrderUsecase = new NewOrderUsecase(repo, orderItemRepo, db);
-            const req = {body: {order_items: [{id:'1'}]}};
+            const req = {body: {order_items: [{id:'1'}], customer_name: '123', customer_address: 'add', customer_phone: '123'}};
             const result = await newOrderUsecase.execute(req);
             expect(beginTxStub.calledOnce).to.be.true;
             expect(commitTxStub.callCount).to.equal(0);
@@ -121,7 +121,7 @@ describe('newOrderUsecase', () => {
             const createOrderStub = sinon.stub(repo, 'create').resolves(orderItem);
             const createOrderItemStub = sinon.stub(orderItemRepo, 'create').resolves();
             const newOrderUsecase = new NewOrderUsecase(repo, orderItemRepo, db);
-            const req = {body: {order_items: [{id:'1'}]}};
+            const req = {body: {order_items: [{id:'1'}], customer_name: '123', customer_address: 'add', customer_phone: '123'}};
             const result = await newOrderUsecase.execute(req);
             expect(beginTxStub.calledOnce).to.be.true;
             expect(commitTxStub.calledOnce).to.be.true;
